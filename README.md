@@ -74,6 +74,7 @@ in the app:
 - other scoreboard filters
 - location support
 - bluetooth instead of BLE
+- Houd ook de percentages bij
 
 
 physical improvements:

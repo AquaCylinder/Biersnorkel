@@ -82,6 +82,7 @@ physical improvements:
 - isolate ESP32 chip itself (ditch dev board kit)
 - battery
 - pcb with screen and functional buttons
+- Voeg een weerstand toe om de sensor pinnen minder gevoelig te maken.
 
 extra unknown error improvements:
 - fix unknown WINRT errors

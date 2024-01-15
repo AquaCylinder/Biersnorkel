@@ -75,6 +75,7 @@ in the app:
 - location support
 - bluetooth instead of BLE
 - Houd ook de percentages bij
+- Scan de barcode om alle data van een biertje bij te houden, wanneer je op een persoons score drukt krijg je al deze data te zien, zoals prijs, formaat, foto etc.
 
 
 physical improvements:

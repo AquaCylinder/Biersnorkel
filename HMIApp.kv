@@ -1,0 +1,597 @@
+#:kivy 2.2.1
+#:import Factory kivy.factory.Factory
+
+ScreenManager:
+    MainScreen:
+    SinglePlayerScreen:
+    MultiPlayerScreen:
+    ScoreboardScreen:
+    SettingsScreen:
+    GroupScreen:
+    MakeGroupScreen:
+
+<MainScreen>:
+    name: "MainScreen"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        Image:
+            source: 'Biersnorkel logo.png'
+        Button:
+            text: 'SingleZuiper'
+            on_release:
+                app.popup_to_connect('SingleZuiper')
+                app.root.current = 'SinglePlayer'
+                root.manager.transition.direction = "left"
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+        Button:
+            text: 'MultiZuiper'
+            on_release:
+                app.popup_to_connect('MultiZuiper')
+                app.root.current = 'GroupScreen'
+                root.manager.transition.direction = "left"
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+        Button:
+            text: 'Scoreboard'
+            on_release:
+                app.root.current = 'Scoreboard'
+                root.manager.transition.direction = "left"
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+        Button:
+            text: 'Settings'
+            on_release:
+                app.root.current = 'SettingsScreen'
+                root.manager.transition.direction = "left"
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+
+<SinglePlayerScreen>:
+    name: "SinglePlayer"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            markup: True
+            text: '[b]TIMER:[/b]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+            color:root.theme[2]
+
+        Label:
+            text: "Select size"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            color:root.theme[2]
+
+        FloatLayout:
+            Label:
+                id: timer
+                text: "00:00:00"
+                font_size: 60
+                pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                background_color:(root.theme[1])
+                color:root.theme[2]
+
+        GridLayout:
+            size_hint: (.8, .1)
+            pos: root.width * 0.1, root.height * 0.85 - self.height
+            cols: 8
+            pos_hint: {'center_x': 0.5, 'center_y': 0.45}
+            CheckBox:
+                id: size_25cl
+                text: 25
+                group: "pintSize"
+                color:root.theme[2]
+                on_active: root.on_checkbox_active(self,self.active)
+            Label:
+                text: '25cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_33cl
+                text: 33
+                group: "pintSize"
+                color:root.theme[2]
+                on_active: root.on_checkbox_active(self,self.active)
+            Label:
+                text: '33cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_50cl
+                text: 50
+                group: "pintSize"
+                color:root.theme[2]
+                on_active: root.on_checkbox_active(self,self.active)
+            Label:
+                text: '50cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_100cl
+                text: 100
+                group: "pintSize"
+                color:root.theme[2]
+                on_active: root.on_checkbox_active(self,self.active)
+            Label:
+                text: '1l'
+                color:root.theme[2]
+
+        FloatLayout:
+            TextInput:
+                id: singlePlayerTextInput
+                hint_text: "Enter Username"
+                hint_text_color:(189/255,189/255,189/250,1)
+                size_hint_y: None
+                pos_hint: {'center_x': 0.5, 'center_y': 0.35}
+                padding: 5,5
+                background_color:(root.theme[1])
+                height: 50
+                multiline: False
+                size_hint_x: None
+                width: 400
+                on_text_validate:root.Validate_Username(self)
+        Button:
+            text: "START"
+            pos_hint: {"center_x": 0.5, "center_y": 0.20 }
+            size_hint: .60,.10
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                root.validate_and_show_popup()
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: (1, .15)
+        pos: 0, root.height - self.height
+        Button:
+            size_hint: (None, 1)
+            width: self.height
+            color:(root.theme[2])
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.root.current = 'MainScreen'
+                root.manager.transition.direction = "right"
+            Image:
+                source: 'Back-arrow-icon.png'
+                y: root.height - self.parent.height
+                x: 0
+                size: self.parent.width, self.parent.height
+                allow_stretch: True
+        Label:
+            text: '[b]Singlezuiper[/b]'
+            font_size: 60
+            markup: True
+            color:root.theme[2]
+            bold:True
+            italic:True
+
+<MultiPlayerScreen>:
+    name: "MultiPlayer"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        # Label:
+        #     markup: True
+        #     text: '[b]TIMER:[/b]'
+        #     font_size: 50
+        #     pos_hint: {"center_x": 0.5, "center_y": 0.88}
+        #     color:root.theme[2]
+        FloatLayout:
+            Label:
+                id: timer
+                text: "00:00:00"
+                font_size: 60
+                pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+                background_color:(root.theme[1])
+                color:root.theme[2]
+            GridLayout:
+                id: multiplayerContainer
+                size_hint:(.9, .5)
+                # pos: root.width*0.1, root.height*0.75 - self.height
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                cols: 2
+                canvas.before:
+                    Color:
+                        rgba: root.theme[2]
+                    Line:
+                        width: 1.1
+                        rectangle: self.x, self.y, self.width, self.height
+        Button:
+            text: "START"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1 }
+            size_hint: .60,.10
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.start_timer(self, False)
+
+        GridLayout:
+            size_hint: (.8, .1)
+            cols: 8
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            CheckBox:
+                id: size_25cl
+                text: 25
+                group: "pintSize"
+                color:(root.theme[2])
+            Label:
+                text: '25cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_33cl
+                text: 33
+                group: "pintSize"
+                color:(root.theme[2])
+            Label:
+                text: '33cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_50cl
+                text: 50
+                group: "pintSize"
+                color:(root.theme[2])
+            Label:
+                text: '50cl'
+                color:root.theme[2]
+            CheckBox:
+                id: size_100cl
+                text: 100
+                group: "pintSize"
+                color:(root.theme[2])
+            Label:
+                text: '1L'
+                color:root.theme[2]
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: (1, .15)
+        pos: 0, root.height - self.height
+        Button:
+            size_hint: (None, 1)
+            width: self.height
+            color:(root.theme[2])
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.root.current = 'MainScreen'
+                root.manager.transition.direction = "right"
+            Image:
+                source: 'Back-arrow-icon.png'
+                y: root.height - self.parent.height
+                x: 0
+                size: self.parent.width, self.parent.height
+                allow_stretch: True
+        Label:
+            text: '[b]MultiZuiper[/b]'
+            font_size: 60
+            markup: True
+            color:root.theme[2]
+            bold:True
+            italic:True
+            id: multiplayerTitle
+
+
+<ScoreboardScreen>:
+    name: "Scoreboard"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+            size_hint: (None, None)
+            size: (root.width * 0.80, root.height *0.76)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            GridLayout:
+                id: scoreContainer
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: 50
+                cols: 3
+                canvas.before:
+                    Color:
+                        rgba: (1,1,1,1)
+                    Line:
+                        width: 1.1
+                        rectangle: self.x, self.y, self.width, self.height
+                Label:
+                    text: 'Rank :'
+                Label:
+                    text: 'Name :'
+                Label:
+                    text: 'Time :'
+        GridLayout:
+            size_hint:(.8, .1)
+            pos: root.width*0.1, root.height*0.85 - self.height
+            cols: 8
+            CheckBox:
+                id: defaultCheckbox
+                group: "pintSize"
+                color: root.theme[2]
+                on_active: root.checkbox_click(self, self.active, 25)
+            Label:
+                text: '25cl'
+                color:root.theme[2]
+            CheckBox:
+                group: "pintSize"
+                color: root.theme[2]
+                on_active: root.checkbox_click(self, self.active, 33)
+            Label:
+                text: '33cl'
+                color:root.theme[2]
+            CheckBox:
+                group: "pintSize"
+                color: root.theme[2]
+                on_active: root.checkbox_click(self, self.active, 50)
+            Label:
+                text: '50cl'
+                color:root.theme[2]
+            CheckBox:
+                group: "pintSize"
+                color: root.theme[2]
+                on_active: root.checkbox_click(self, self.active, 100)
+            Label:
+                text: '1L'
+                color:root.theme[2]
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: (1, .15)
+            pos: 0, root.height - self.height
+            Button:
+                size_hint: (None, 1)
+                width: self.height
+                color:(root.theme[2])
+                background_color: (root.theme[1])
+                background_normal: ''
+                on_release:
+                    app.root.current = 'MainScreen'
+                    root.manager.transition.direction = "right"
+                Image:
+                    source: 'Back-arrow-icon.png'
+                    y: root.height - self.parent.height
+                    x: 0
+                    size: self.parent.width, self.parent.height
+                    allow_stretch: True
+            Label:
+                text: '[b]Top 100[/b]'
+                font_size: 60
+                markup: True
+                color:root.theme[2]
+                bold:True
+                italic:True
+
+<SettingsScreen>:
+    name: "SettingsScreen"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: (1, .15)
+            Button:
+                size_hint: (None, 1)
+                width: self.height
+                color:(root.theme[2])
+                background_color: (root.theme[1])
+                background_normal: ''
+                on_release:
+                    app.root.current = 'MainScreen'
+                    root.manager.transition.direction = "right"
+                Image:
+                    source: 'Back-arrow-icon.png'
+                    y: root.height - self.parent.height
+                    x: 0
+                    size: self.parent.width, self.parent.height
+                    allow_stretch: True
+            Label:
+                text:'Settings'
+                color: root.theme[2]
+                font_size: '40sp'
+        BoxLayout:
+            size_hint: (.4, .8)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            orientation: 'vertical'
+            Label:
+                text: "Current theme:"
+                color:(root.theme[2])
+            GridLayout:
+                cols: 2
+                CheckBox:
+                    id: defaultThemeCheckbox
+                    group: "themeSelectionGroup"
+                    color:(root.theme[2])
+                    on_active: root.checkbox_click(self, self.active, "Regular")
+                Label:
+                    text: 'Regular'
+                    color:root.theme[2]
+                CheckBox:
+                    group: "themeSelectionGroup"
+                    color:(root.theme[2])
+                    id: darkThemeCheckbox
+                    on_active: root.checkbox_click(self, self.active, "Dark")
+                Label:
+                    text: 'Dark'
+                    color:root.theme[2]
+
+<GroupScreen>:
+    name: "GroupScreen"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            text: "Add group"
+            pos_hint: {"center_x": 0.5, "center_y": 0.775}
+            size_hint: .60,.08
+            color:root.theme[2]
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.root.current = 'MakeGroupScreen'
+                root.manager.transition.direction = "right"
+        GridLayout:
+            id: groupContainer
+            font_size: 40
+            size_hint:(.8, .5)
+            pos: root.width*0.1, root.height*0.7 - self.height
+            cols: 1
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: (1, .15)
+        pos: 0, root.height - self.height
+        Button:
+            size_hint: (None, 1)
+            width: self.height
+            color:(root.theme[2])
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.root.current = 'MainScreen'
+                root.manager.transition.direction = "right"
+            Image:
+                source: 'Back-arrow-icon.png'
+                y: root.height - self.parent.height
+                x: 0
+                size: self.parent.width, self.parent.height
+                allow_stretch: True
+        Label:
+            text: '[b]My groups[/b]'
+            font_size: 60
+            markup: True
+            color:root.theme[2]
+            bold:True
+            italic:True
+
+<MakeGroupScreen>:
+    name: "MakeGroupScreen"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: root.theme[0]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        TextInput:
+            id: group_name
+            hint_text: "Enter Group Name"
+            hint_text_color:(189/255,189/255,189/250,1)
+            font_size: 30
+            padding_x: self.width / 2 - (len(self.text) * self.font_size / 3)
+            multiline: False
+            size_hint: (.6, .05)
+            pos_hint: {"center_x": 0.6, "center_y": 0.825}
+            background_color:(root.theme[1])
+        TextInput:
+            id: username_input
+            hint_text: "Enter Username"
+            hint_text_color:(189/255,189/255,189/250,1)
+            font_size: 30
+            padding_x: self.width / 2 - (len(self.text) * self.font_size / 3)
+            multiline: False
+            size_hint: (.6, .05)
+            pos_hint: {"center_x": 0.6, "center_y": 0.775}
+            background_color:(root.theme[1])
+        Label:
+            text: "Group name:"
+            font_size: 30
+            color:root.theme[2]
+            pos_hint: {"center_x": 0.15, "center_y": 0.825}
+            size_hint: .60, .05
+        Label:
+            text: "Player name:"
+            font_size: 30
+            color:root.theme[2]
+            pos_hint: {"center_x": 0.15, "center_y": 0.775}
+            size_hint: .60, .05
+        Button:
+            text: "Add Player"
+            pos_hint: {"center_x": 0.6, "center_y": 0.725}
+            size_hint: .60, .05
+            background_color: (root.theme[1])
+            background_normal: ''
+            color:root.theme[2]
+            on_release:
+                app.root.get_screen("MakeGroupScreen").add_player(username_input.text)
+        Label:
+            text: "Players:"
+            font_size: 40
+            color:root.theme[2]
+            pos_hint: {"center_x": 0.5, "center_y": 0.675}
+            size_hint: .60, .05
+        Button:
+            text: "Add group"
+            pos_hint: {"center_x": 0.5, "center_y": 0.075}
+            size_hint: .60, .05
+            background_color: (root.theme[1])
+            background_normal: ''
+            color:root.theme[2]
+            on_release:
+                app.root.current = 'GroupScreen'
+                root.add_group(group_name.text)
+        GridLayout:
+            id: nameContainer
+            font_size: 40
+            size_hint:(.8, .5)
+            pos: root.width*0.1, root.height*0.625 - self.height
+            cols: 1
+            canvas.before:
+                Color:
+                    rgba: root.theme[2]
+                Line:
+                    width: 1.1
+                    rectangle: self.x, self.y, self.width, self.height
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: (1, .15)
+        pos: 0, root.height - self.height
+        Button:
+            size_hint: (None, 1)
+            width: self.height
+            color:(root.theme[2])
+            background_color: (root.theme[1])
+            background_normal: ''
+            on_release:
+                app.root.current = 'MainScreen'
+                root.manager.transition.direction = "right"
+            Image:
+                source: 'Back-arrow-icon.png'
+                y: root.height - self.parent.height
+                x: 0
+                size: self.parent.width, self.parent.height
+                allow_stretch: True
+        Label:
+            text: '[b]Make a group[/b]'
+            font_size: 60
+            markup: True
+            color:root.theme[2]
+            bold:True

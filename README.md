@@ -1,7 +1,7 @@
 # Biersnorkel
 Een biersnorkel met app die verbind via bluetooth en kivy
 
-https://i.imgur.com/bMbGZQz.jpg
+![alt text](https://imgur.com/bMbGZQz)
 
 Preparations:
 install python via https://www.python.org/downloads/
